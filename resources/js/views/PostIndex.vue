@@ -8,33 +8,41 @@
         </h1>
         <div style="clear: both;"></div>
     </div>
-    <BarChartVue/>
+    <BarChartVue></BarChartVue> />
 </template>
 
 <script>
-import { onMounted } from 'vue';
-import useGroceries from '../services/GroceryServices';
 import BarChartVue from '../components/BarChart.vue';
+import axios from 'axios';
 
 export default {
   components:{
     BarChartVue
+  },
+  data() {
+    return  {
+      arrProduct: [],
+      arrQuantity: [],
+      arrType: [],
+    };
+  },
+  async created() {
+    const data = (await axios.get('/api/groceries')).data.data;
+    console.log(data);
+    
+
+    data.forEach(d => { 
+      const {
+        name,
+        type,
+        amount
+      } = d;
+
+      this.arrProduct.push({totalP: name});
+      this.arrType.push({totalT: type});
+      this.arrQuantity.push({totalQ: amount});
+      console.log(this.arrProduct);
+    })
   }
-  // async created() {
-  //   const data = (await axios.get('/api/groceries')).data.data;
-  //   console.log(data);
-
-  //   data.forEach(d => {
-  //     const {
-  //       name,
-  //       type,
-  //       amount
-  //     } = d;
-
-  //     this.arrProduct.push({total: name});
-  //     this.arrType.push({total: type});
-  //     this.arrQuantity.push({total: amount});
-  //   })
-  // }
 }
 </script>

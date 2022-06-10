@@ -1,5 +1,5 @@
 <template>
-  <Bar v-if ='loaded' 
+  <Bar
     :chart-options="chartOptions"
     :chart-data="chartData"
     :chart-id="chartId"
@@ -13,86 +13,50 @@
 </template>
 
 <script>
-import { onMounted } from 'vue'
-import useGroceries from '../services/GroceryServices'
-import { Bar }  from 'vue-chartjs'
+import { Bar } from 'vue-chartjs'
 import { Chart as ChartJS, Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale } from 'chart.js'
-import { data } from 'browserslist'
-import axios from 'axios'
 
 ChartJS.register(Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale)
 
 export default {
-  extends: Bar,
   name: 'BarChart',
   components: { Bar },
   props: {
-    chartId: {
+    label: {
       type: String,
-      default: 'bar-chart'
     },
-    datasetIdKey: {
-      type: String,
-      default: 'label'
+    chartData: {
+      type: Array,
     },
-    width: {
-      type: Number,
-      default: 150
-    },
-    height: {
-      type: Number,
-      default: 150
-    },
-    cssClasses: {
-      default: '',
-      type: String
-    },
-    styles: {
+    Options: {
       type: Object,
-      default: () => {}
     },
-    plugins: {
-      type: Object,
-      default: () => {}
-    }
   },
-  // async mounted () {
-  //   this.loaded = false
+  // mounted() {
+  //   const totalsP = this.chartData.map(d => d.totalP);
+  //   const totalsQ = this.chartData.map(d => d.totalQ);
 
-  //   try {
-  //     const response = await fetch('/api/groceries')
-  //     this.chartdata = userlist
-  //     console.log(response)
-  //     this.loaded = true
-  //   } catch (e) {
-  //     console.error(e)
-  //   }
-  // }, 
-  async mounted() {
-    this.loaded = false
-    
-      console.log(await axios.get('/api/groceries'))
-      
-      const {
-        arrProduct,
-        arrQuantity
-      } = (await axios.get('/api/groceries')).data.data.reduce((acc,d) => {
-            acc.arrProduct.push(d.name)
-            acc.arrQuantity.push(d.amount)
-            return acc;
-        },{
-            arrProduct: [],
-            arrQuantity: [],
-        });
-
-      this.chartData = {
-        labels: arrProduct,
-        datasets: [ { data: arrQuantity } ]
+  //   this.renderChart(
+  //     {
+  //       labels: totalsP,
+  //       datasets: [{
+  //         label: this.label,
+  //         data: totalsQ
+  //       }]
+  //     },
+  //     this.Options
+  //   );
+  // },
+  data() {
+    return {
+      chartData: {
+        labels: [ 'January', 'February', 'March', 'april' ],
+        datasets: [ { data: [40, 20, 12, 25] } ]
       },
-      this.chartOptions= {
+      chartOptions: {
         responsive: true
       }
-      this.loaded = true
+    }
   }
 }
 </script>
