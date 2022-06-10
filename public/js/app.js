@@ -19847,17 +19847,6 @@ chart_js__WEBPACK_IMPORTED_MODULE_0__.Chart.register(chart_js__WEBPACK_IMPORTED_
   components: {
     Bar: vue_chartjs__WEBPACK_IMPORTED_MODULE_1__.Bar
   },
-  props: {
-    label: {
-      type: String
-    },
-    chartData: {
-      type: Array
-    },
-    Options: {
-      type: Object
-    }
-  },
   // mounted() {
   //   const totalsP = this.chartData.map(d => d.totalP);
   //   const totalsQ = this.chartData.map(d => d.totalQ);
@@ -19989,17 +19978,10 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
 
   return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_Bar, {
     "chart-options": $data.chartOptions,
-    "chart-data": $data.chartData,
-    "chart-id": _ctx.chartId,
-    "dataset-id-key": _ctx.datasetIdKey,
-    plugins: _ctx.plugins,
-    "css-classes": _ctx.cssClasses,
-    styles: _ctx.styles,
-    width: _ctx.width,
-    height: _ctx.height
+    "chart-data": $data.chartData
   }, null, 8
   /* PROPS */
-  , ["chart-options", "chart-data", "chart-id", "dataset-id-key", "plugins", "css-classes", "styles", "width", "height"]);
+  , ["chart-options", "chart-data"]);
 }
 
 /***/ }),
