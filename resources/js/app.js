@@ -2,7 +2,7 @@ import './bootstrap';
 
 import { createApp } from "vue";
 import router from "./router";
-import PostIndex from "./components/PostIndex.vue";
+import PostIndex from "./views/PostIndex.vue";
 
 createApp({
     components: {

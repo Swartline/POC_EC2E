@@ -1,5 +1,5 @@
 import { createRouter, createWebHistory } from "vue-router";
-import PostIndex from "../components/PostIndex.vue";
+import PostIndex from "../views/PostIndex.vue";
 
 const routes = [
     {
