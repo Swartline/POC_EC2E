@@ -3,9 +3,6 @@ import { ref } from "vue";
 import axios from 'axios'
 
 export default function useGroceries() {
-    const arrProduct= ref([]);
-    const arrQuantity= ref([]);
-    const arrType= ref([]);
     
     const getGrocery = async() => {
 
