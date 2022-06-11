@@ -8,7 +8,7 @@
         </h1>
         <div style="clear: both;"></div>
     </div>
-    <BarChartVue></BarChartVue> />
+    <BarChartVue></BarChartVue>
 </template>
 
 <script>
@@ -19,30 +19,30 @@ export default {
   components:{
     BarChartVue
   },
-  data() {
-    return  {
-      arrProduct: [],
-      arrQuantity: [],
-      arrType: [],
-    };
-  },
-  async created() {
-    const data = (await axios.get('/api/groceries')).data.data;
-    console.log(data);
+  // data() {
+  //   return  {
+  //     arrProduct: [],
+  //     arrQuantity: [],
+  //     arrType: [],
+  //   };
+  // },
+  // async created() {
+  //   const data = (await axios.get('/api/groceries')).data.data;
+  //   console.log(data);
     
 
-    data.forEach(d => { 
-      const {
-        name,
-        type,
-        amount
-      } = d;
+  //   data.forEach(d => { 
+  //     const {
+  //       name,
+  //       type,
+  //       amount
+  //     } = d;
 
-      this.arrProduct.push({totalP: name});
-      this.arrType.push({totalT: type});
-      this.arrQuantity.push({totalQ: amount});
-      console.log(this.arrProduct);
-    })
-  }
+  //     this.arrProduct.push({totalP: name});
+  //     this.arrType.push({totalT: type});
+  //     this.arrQuantity.push({totalQ: amount});
+  //     console.log(this.arrProduct);
+  //   })
+  // }
 }
 </script>
