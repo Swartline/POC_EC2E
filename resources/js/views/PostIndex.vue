@@ -8,17 +8,20 @@
         </h1>
         <div style="clear: both;"></div>
     </div>
-    <BarChartVue></BarChartVue>
+    <BarChartVue class="bar"></BarChartVue>
+    <!-- <PieChart></PieChart> -->
 </template>
 
 <script>
 import BarChartVue from '../components/BarChart.vue';
+// import PieChart from '../components/PieChart';
 import axios from 'axios';
 
 export default {
   components:{
-    BarChartVue
-  },
+    BarChartVue//,
+    // PieChart
+  }
   // data() {
   //   return  {
   //     arrProduct: [],

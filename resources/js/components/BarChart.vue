@@ -1,14 +1,7 @@
-<!-- <template>
+<template>
   <Bar
     :chart-options="chartOptions"
     :chart-data="chartData"
-    :chart-id="chartId"
-    :dataset-id-key="datasetIdKey"
-    :plugins="plugins"
-    :css-classes="cssClasses"
-    :styles="styles"
-    :width="width"
-    :height="height"
   />
 </template>
 
@@ -21,41 +14,15 @@ ChartJS.register(Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale)
 export default {
   name: 'BarChart',
   components: { Bar },
-  props: {
-    chartId: {
-      type: String,
-      default: 'bar-chart'
-    },
-    datasetIdKey: {
-      type: String,
-      default: 'label'
-    },
-    width: {
-      type: Number,
-      default: 400
-    },
-    height: {
-      type: Number,
-      default: 400
-    },
-    cssClasses: {
-      default: '',
-      type: String
-    },
-    styles: {
-      type: Object,
-      default: () => {}
-    },
-    plugins: {
-      type: Object,
-      default: () => {}
-    }
-  },
   data() {
     return {
       chartData: {
-        labels: [ 'January', 'February', 'March' ],
-        datasets: [ { data: [40, 20, 12] } ]
+        labels: [ 'Pomme', 'Clémentine', 'Abricot', 'Pastèque', 'Pomelo chinois', 'Endive', 'Navet', 'Concombre', 'chou', 'Carrote' ],
+        datasets: [ { 
+          backgroundColors: '#33FF5D',
+          data: [15, 10, 2, 2, 20, 5, 6, 9, 10, 30] 
+          } 
+          ]
       },
       chartOptions: {
         responsive: true
@@ -63,9 +30,9 @@ export default {
     }
   }
 }
-</script> -->
+</script>
 
-<template>
+<!-- <template>
   <div class="container">
     <Bar v-if="loaded" :chart-data="chartData" />
   </div>
@@ -90,6 +57,7 @@ export default {
     try {
       const { groceries } = await fetch('/api/groceries')
       this.chartdata = groceries
+      console.log(this.chartData)
 
       this.loaded = true
     } catch (e) {
@@ -97,4 +65,4 @@ export default {
     }
   }
 }
-</script>
+</script> -->
