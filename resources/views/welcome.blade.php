@@ -16,5 +16,6 @@
             <router-view />
        </div>
        <script src="{{ asset('js/app.js') }}"></script>
+       <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     </body>
 </html>
