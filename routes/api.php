@@ -16,3 +16,5 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('groceries', [PostController::class, 'index']);
+Route::post('addGrocery', [PostController::class, 'addGrocery']);
+

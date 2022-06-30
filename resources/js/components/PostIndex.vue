@@ -1,135 +1,159 @@
-<!-- <template> 
-  <Bar
-    :chart-options="chartOptions"
-    :chart-data="chartData"
-    :chart-id="chartId"
-    :dataset-id-key="datasetIdKey"
-    :plugins="plugins"
-    :css-classes="cssClasses"
-    :styles="styles"
-    :width="width"
-    :height="height"
-  />
-</template>
-
-<script>
-import { Bar } from 'vue-chartjs'
-import { Chart as ChartJS, Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale } from 'chart.js'
-import axios from 'axios';
-
-export default{
-    setup() {
-        const getGroceries = async () => {
-            let groceries = await axios.get('/api/groceries');
-            console.log(groceries);
-        }
-    getGroceries();
-    }
-}
-
-ChartJS.register(Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale)
-
-export default {
-  name: 'BarChart',
-  components: { Bar },
-  props: {
-    chartId: {
-      type: String,
-      default: 'bar-chart'
-    },
-    datasetIdKey: {
-      type: String,
-      default: 'label'
-    },
-    width: {
-      type: Number,
-      default: 200
-    },
-    height: {
-      type: Number,
-      default: 200
-    },
-    cssClasses: {
-      default: '',
-      type: String
-    },
-    styles: {
-      type: Object,
-      default: () => {}
-    },
-    plugins: {
-      type: Object,
-      default: () => {}
-    }
-  },
-  data() {
-    return {
-      chartData: {
-        labels: [ 'January', 'February', 'March', 'April' ],
-        datasets: [ { data: [40, 20, 12, 25] } ]
-      },
-      chartOptions: {
-        responsive: true
-      }
-    }
-  }
-}
-</script> -->
-
 <template>
     <div class="border">
         <h1 class="left">
             Epicerie
         </h1>
-        <h1 class="right"> 
-            Charles haller    
+        <h1 class="right">
+            {{user}}
         </h1>
         <div style="clear: both;"></div>
     </div>
     <div>
-        <canvas id="myChart" width="400" height="400"></canvas>
-    </div>   
+        <button @click="redirectToRoute('Add')">add</button>
+    </div>
+    <div style="display: flex; justify-content: space-between;">
+        <div class="bar-chart">
+            <Bar
+                :chart-options="chartOptions"
+                :chart-data="barChartData"
+                :chart-id="chartId"
+                :dataset-id-key="datasetIdKey"
+                :plugins="plugins"
+                :css-classes="cssClasses"
+                :styles="styles"
+                :width="width"
+                :height="height"
+            />
+        </div>
+        <table>
+        <tr>
+            <th>
+                Nom
+            </th>
+            <th>
+                quantité
+            </th>
+            <th>
+                Prix
+            </th>
+        </tr>
+        <tr v-for="product in products ">
+            <td>
+                {{product.name}}
+            </td>
+            <td>
+                {{product.amount}}
+            </td>
+            <td>
+                {{product.unit_price}}
+            </td>
+        </tr>
+    </table>
+        <div class="pie-chart">
+            <Pie
+                :chart-options="chartOptions"
+                :chart-data="pieChartData"
+            />
+        </div>
+        
+    </div>
 </template>
 
 <script>
+import axios from "axios";
+import { Bar, Pie } from 'vue-chartjs'
+import { Chart as ChartJS, Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale, ArcElement } from 'chart.js'
+
+ChartJS.register(Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale, ArcElement)
+
 export default {
-  name: 'BarChart',
-  components: { Bar },
-    const: ctx = document.getElementById('myChart'),
-    const: myChart = new Chart(ctx, {
-        type: 'bar',
-        data: {
-            labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
-            datasets: [{
-                label: '# of Votes',
-                data: [12, 19, 3, 5, 2, 3],
-                backgroundColor: [
-                    'rgba(255, 99, 132, 0.2)',
-                    'rgba(54, 162, 235, 0.2)',
-                    'rgba(255, 206, 86, 0.2)',
-                    'rgba(75, 192, 192, 0.2)',
-                    'rgba(153, 102, 255, 0.2)',
-                    'rgba(255, 159, 64, 0.2)'
-                ],
-                borderColor: [
-                    'rgba(255, 99, 132, 1)',
-                    'rgba(54, 162, 235, 1)',
-                    'rgba(255, 206, 86, 1)',
-                    'rgba(75, 192, 192, 1)',
-                    'rgba(153, 102, 255, 1)',
-                    'rgba(255, 159, 64, 1)'
-                ],
-                borderWidth: 1
-            }]
-        },
-        options: {
-            scales: {
-                y: {
-                    beginAtZero: true
-                }
+    name: 'BarChart',
+    components: { Bar, Pie},
+    data() {
+        return {
+            user: "",
+            chartId: 'bar-chart',
+            datasetIdKey: 'label',
+            width: 400,
+            height: 400,
+            cssClasses: '',
+            styles: {},
+            plugins: {},
+            products: [],
+
+            barChartData: {
+                labels: [ 'January', 'February', 'March' ],
+                datasets: []
+            },
+            pieChartData:{
+                labels:  ['Fruits', 'Légumes'],
+                datasets: []
+            },
+            chartOptions: {
+                responsive: true
             }
         }
-    }),
-    myChart,
+    },
+    mounted() {
+        this.user = "Charles Bruant"
+      axios.get('/api/groceries').then(({data}) => {
+          console.log(data)
+          let amounts = []
+          let labels = []
+          let prices = []
+          let fruitsNumber = 0
+          let vegetablesNumber = 0
+
+          this.products = data
+
+
+            data.forEach(product => {
+                labels.push(product.name)
+                amounts.push(product.amount)
+                prices.push(product.unit_price)
+                if(product.type === 'Fruit'){
+                    fruitsNumber += product.amount;
+                }else{
+                    vegetablesNumber += product.amount;
+                }
+
+            });
+          this.pieChartData.datasets = [ {
+                    label:'type',
+                    backgroundColor: ['#29DE2A','#DE2946'],
+                    data: [fruitsNumber, vegetablesNumber]
+                }] 
+          this.barChartData.labels = labels
+          this.barChartData.datasets =
+            [
+                {
+                    label:'quantité',
+                    backgroundColor: '#2962DE',
+                    data: amounts
+                }, 
+                {
+                    label:'prix',
+                    backgroundColor: '#f78539',
+                    data: prices
+                }
+           ]
+      })
+    },
+    methods: {
+        redirectToRoute(name){
+            this.$router.push({name: 'create'})
+        }
+    },
 }
 </script>
+
+<style>
+.bar-chart {
+    height: 400px;
+    width: 400px;
+}
+.pie-chart{
+    height: 400px;
+    width: 400px;
+}
+</style>
